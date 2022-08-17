@@ -4,9 +4,9 @@ module.exports = async function (interaction) {
     case 2: // ApplicationCommand
     case 4: // ApplicationCommandAutocomplete
       if (this.cmds[interaction.commandName]) {
-        await this.cmds[interaction.commandName].run[
+        await this.cmds[interaction.commandName][
           interaction.type === 2 ? "exec" : "autocomplete"
-        ](this, interaction)
+        ](interaction)
       } else interaction.reply({ 
         content: 'Команда не існує', 
         ephemeral: true 

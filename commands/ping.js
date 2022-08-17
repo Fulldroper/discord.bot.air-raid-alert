@@ -17,5 +17,10 @@ module.exports.exec = async function(interaction) {
 }
 
 module.exports.autocomplete = async function(interaction) {
-  console.log(interaction);
+  interaction.respond([
+    {
+      name: 'Option 1',
+      value: 'option1',
+    },
+  ])
 }

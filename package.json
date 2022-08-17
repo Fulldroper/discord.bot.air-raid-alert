@@ -1,0 +1,32 @@
+{
+  "name": "bot_engine",
+  "version": "1.0.0",
+  "description": "Simple engine for modern discord bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "clear && node .",
+    "test": "nodemon --exec npm start",
+    "worker": "npm i --omit=dev && node .",
+    "logs": "heroku logs --tail",
+    "deploy": "git add . && git commit -m 'upd' && git push heroku master && git push github master"
+  },
+  "config": {
+    "path": {
+      "events": "./events/",
+      "commands": "./commands/",
+      "addons": "./addons/"
+    }
+  },
+  "author": "full_droper <full_droper@pm.me>",
+  "license": "MIT",
+  "devDependencies": {
+    "dotenv": "^16.0.1",
+    "nodemon": "^2.0.16"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "discord.js": "^14.2.0",
+    "fs": "^0.0.1-security",
+    "redis": "^4.2.0"
+  }
+}

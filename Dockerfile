@@ -1,4 +1,4 @@
 FROM ubuntu:18.04
-WORKDIR /app
+WORKDIR /
 COPY . ./
 CMD ["node index.js"]

@@ -1,2 +1,2 @@
 WORKDIR /
-CMD ["ls && node index.js"]
+CMD ["node ."]

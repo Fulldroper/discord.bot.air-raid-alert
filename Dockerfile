@@ -1,2 +1,1 @@
-WORKDIR /
-CMD ["node ."]
+ADD Procfile /

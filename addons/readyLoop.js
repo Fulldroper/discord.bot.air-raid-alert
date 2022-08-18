@@ -4,5 +4,5 @@ module.exports = async (fn, interval = 1000) => {
   while (true) {
     await fn()
     await interval.sleep() 
-  }  
+  }
 }

@@ -1,3 +1,5 @@
-WORKDIR /app/bin
-ENTRYPOINT ["/tmp/app"]
-CMD ["node ."]
+FROM node
+WORKDIR ./
+RUN npm i
+
+CMD ["node","."]

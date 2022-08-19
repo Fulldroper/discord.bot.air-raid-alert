@@ -4,11 +4,10 @@
   "description": "Simple engine for modern discord bot",
   "main": "index.js",
   "scripts": {
-    "start": "clear && node .",
-    "test": "nodemon --exec npm start",
-    "worker": "npm i --omit=dev && node .",
-    "logs": "heroku logs --tail",
-    "deploy": "git add . && git commit -m 'upd' && git push ledokku master && git push github master"
+    "start": "npm i --omit=dev && node .",
+    "worker": "clear && node .",
+    "test": "nodemon --exec npm worker",
+    "deploy": "git add . && git commit -m 'upd' && git push deploy master && git push github master"
   },
   "config": {
     "path": {

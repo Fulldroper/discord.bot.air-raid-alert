@@ -1,3 +1,3 @@
 WORKDIR /app/bin
-ENTRYPOINT ["node"]
+ENTRYPOINT ["node ."]
 CMD ["Procfile"]

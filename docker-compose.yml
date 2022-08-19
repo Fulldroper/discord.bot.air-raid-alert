@@ -1,0 +1,10 @@
+services:
+  Worker:
+    image: gliderlabs/herokuish
+    volumes:
+      - .:/tmp/app
+    ports:
+      - 3000:3000
+    entrypoint: ["/bin/herokuish"]
+    # command: ["test"]
+    # command: ["procfile", "start", "web"]

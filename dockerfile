@@ -1,9 +1,12 @@
 FROM node:17
 
-WORKDIR ./
+WORKDIR .
 
 COPY . .
 
-RUN npm i
+RUN npm install -g
+
+# Open Port
+EXPOSE 80
 
 CMD ["node","."]

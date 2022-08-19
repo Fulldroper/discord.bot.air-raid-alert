@@ -11,4 +11,4 @@ EXPOSE 80
 
 RUN 
 CMD [ "echo", "$HOME" ]
-CMD ["node","."]
+ENTRYPOINT ["node","index.js"]

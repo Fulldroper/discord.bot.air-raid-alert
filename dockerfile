@@ -1,6 +1,6 @@
 FROM node:17
 
-WORKDIR .
+WORKDIR ./propozicii/
 
 COPY . .
 

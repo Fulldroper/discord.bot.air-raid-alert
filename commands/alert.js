@@ -17,7 +17,7 @@ module.exports.info = {
 module.exports.exec = async function (interaction) {
   const { value } = interaction.options.get("region")
   const hasUser = await this.db.pipe.findOne({ id: interaction.member.id })
-  
+  console.log(hasUser);
   if (hasUser) {
     await this.db.pipe.updateOne(
       { id: interaction.member?.id },

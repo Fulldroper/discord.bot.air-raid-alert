@@ -92,5 +92,5 @@ module.exports = async function () {
 
   }).bind(this)
 
-  this.addons['readyLoop'](loop, 3000)
+  this.addons['readyLoop'](loop, 5000)
 }

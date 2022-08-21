@@ -6,8 +6,9 @@
   "scripts": {
     "start": "npm i --omit=dev && node .",
     "worker": "clear && node .",
-    "test": "nodemon --exec npm worker",
-    "deploy": "git add . && git commit -m 'upd' && git push deploy master && git push github master"
+    "test": "nodemon --exec npm run worker",
+    "deploy": "git add . && git commit -m 'upd' && git push deploy master && git push github master",
+    "deploy-force": "git add . && git commit -m 'upd' && git push -f deploy master && git push -f github master"
   },
   "config": {
     "path": {
@@ -26,6 +27,6 @@
     "axios": "^0.27.2",
     "discord.js": "^14.2.0",
     "fs": "^0.0.1-security",
-    "redis": "^4.2.0"
+    "mongodb": "^4.9.0"
   }
 }

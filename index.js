@@ -58,7 +58,7 @@
   bot.addons['moded_prototypes']()
 
   // init db
-  bot.db = new bot.addons["redis_db"](process.env.REDIS_URL)
+  bot.db = new bot.addons["mongo_db"](process.env.MONGO_URL, process.env.MONGO_DB, process.env.MONGO_COLLECTION)
 
   // init error cath method and add to discord bot object
   try {

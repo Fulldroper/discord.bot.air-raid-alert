@@ -1,24 +1,24 @@
 module.exports = async function () {
-  this.db.connect()
+  await this.db.connect()
   
   console.log('[start] as ', this.user.tag, " at ", new Date);
   console.log(`[Addons](${Object.keys(this.addons).length}):`, Object.keys(this.addons))
   console.log(`[Commands](${Object.keys(this.cmds).length}):`, Object.keys(this.cmds));
   
-  // this.addons["io-i"]()
-  // const http = require('node:http')
   const axios = require("axios").default
   let last_modified
   let buff_alerts
+
   const loop = (async function () {
     const check = async function ({alerts}) {
       const now_alerts = {}
       let start, end
-
+      
       alerts.forEach(el => {
         now_alerts[el.location_title] = ({title: el.location_title, started_at: el.started_at})
       })      
 
+      
       if (!buff_alerts) {
         buff_alerts = start = now_alerts
       } else {
@@ -28,39 +28,43 @@ module.exports = async function () {
         start = now_arr.filter(x => (!old_arr.includes(x)))
         end = old_arr.filter(x => (!now_arr.includes(x)))
       }
-
+      
       if (start) {
-        for (let i = 0; i < start.length; i++) {
-          const list = (await this.db.get(`alert.bot.${start[i]}`))?.split(",") || []
-          if (list) {
-            for (let j = 0; j < list.length; j++) {
-              const user = await this.users.fetch(list[j])
+        for (const key in start) {
+          let list = await this.db.pipe.find({
+            alerts: start[key].title
+          })
+          list = await list.toArray()
+          if (list?.length) {
+            for (const el of list) {
+              const user = await this.users.fetch(el.id)
               user.send({
-                content: `🚨 Повітряна тривога в ${start[i]}`
+                content: `🚨 Повітряна тривога в ${key}`
               })
               .catch(() => console.log(`Сповіщення не відправленно ${users.tag}`))
-              await (300).sleep();
-            }
+            } 
           }
         }
       }
 
       if (end) {
-        for (let i = 0; i < end.length; i++) {
-          const list = (await this.db.get(`alert.bot.${end[i]}`))?.split(",") || []
-          if (list) {
-            for (let j = 0; j < list.length; j++) {
-              const user = await this.users.fetch(list[j])
+        for (const key in end) {
+          let list = await this.db.pipe.find({
+            alerts: [end[key].title] 
+          })
+          list = await list.toArray()
+          if (list?.length) {
+            for (const el of list) {
+              const user = await this.users.fetch(el.id)
               user.send({
-                content: `🕊️ Відміна тривоги в ${end[i]}`
+                content: `🕊️ Відміна тривоги в ${key}`
               })
               .catch(() => console.log(`Сповіщення не відправленно ${users.tag}`))
-              await (300).sleep();
-            }
+            } 
           }
         }
       }
-    };
+    }.bind(this);
 
     if (last_modified) {
       const head = await axios({
@@ -69,7 +73,7 @@ module.exports = async function () {
         // headers: { "Authorization": `Bot ${ process.env.TOKEN }` }
       }).catch(e => console.log(e))
 
-      if (head.status = 304) {
+      if (head.status === 304 && buff_alerts) {
         last_modified = head.headers['last-modified']
       } else {
         check(head.data)
@@ -86,7 +90,6 @@ module.exports = async function () {
       last_modified = get.headers['last-modified']
     }
 
-    await (1000).sleep()
   }).bind(this)
 
   this.addons['readyLoop'](loop, 3000)

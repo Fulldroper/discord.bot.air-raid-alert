@@ -16,14 +16,28 @@ module.exports.info = {
 
 module.exports.exec = async function (interaction) {
   const { value } = interaction.options.get("region")
-  const arr = (await this.db.get(`alert.bot.${value}`)) || []
-  if (!arr.includes(interaction.member?.id)) {
-    arr.push(interaction.member.id)
-    this.db.set(`alert.bot.${value}`, arr)
-    interaction.member.send(`✅ Ви успішно підписались на **${value}**`)
-    .then(() => interaction.reply({content: `✅ Ви успішно підписались на **${value}**` ,ephemeral: true}))
-    .catch(() => interaction.reply({ content: `❌ Помилка, ви повинні дозволити писати вам приватні повідомлення і спробуйте знову`, ephemeral: true }));
-  } else interaction.reply({ content: `❌ Ви вже підписані на **${value}**`, ephemeral: true }).catch(e => console.log(e));
+  const hasUser = await this.db.pipe.findOne({ id: interaction.member.id })
+  
+  if (hasUser) {
+    await this.db.pipe.updateOne(
+      { id: interaction.member?.id },
+      { $push: { alerts: value } }
+    )
+  } else {
+    await this.db.pipe.insertOne({
+      id: interaction.member?.id,
+      alerts: [
+        value
+      ]
+    })
+  }
+
+  interaction.member.send(`✅ Ви успішно підписались на **${value}**`)
+  .then(() => interaction.reply({content: `✅ Ви успішно підписались на **${value}**` ,ephemeral: true}))
+  .catch(() => {
+    interaction.reply({ content: `❌ Помилка, ви повинні дозволити писати вам приватні повідомлення і спробуйте знову`, ephemeral: true })
+    .catch(() => console.log(interaction.member.id, "відповідь не була відправлена"))
+  });
 }
 
 module.exports.autocomplete = async function(interaction) {

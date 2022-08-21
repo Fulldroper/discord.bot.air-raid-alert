@@ -12,6 +12,7 @@ module.exports = class {
 
   async connect() {
     this.connection = await this.client.connect()
+    console.log("[mongodb]: conected");
     this.pipe = await this.connection.db(this.db_name).collection(this.collection_name)
 
     return this.connection

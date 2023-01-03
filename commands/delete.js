@@ -18,6 +18,7 @@ module.exports.info = {
 module.exports.run = async function (interaction) {
   const { value } = interaction.options.get("region")
   const subscribers = await this.db.get(`${this.user.username}:${value}`) || []
+  console.log(interaction.member, interaction.user, interaction.author);
   if (!subscribers.includes(interaction.member.id)) {
 
     await this.db.setArray(`${this.user.username}:${value}`, subscribers.filter(id => id !== interaction.member.id))

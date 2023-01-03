@@ -41,24 +41,24 @@ module.exports = async function () {
       }      
       // send to start
       for (const region of newer) {
-        const subscribers = await this.db.get(`${this.user.username}:${region}`) || []
+        const subscribers = await this.db.get(`${this.user.username}:${region.location_oblast}`) || []
         for (const uid of subscribers) {
           const user = await this.users.fetch(uid) || false
           if (user) {
             if (user.bot) return
-            user.send(`🚨 В ${region} повітряна тривога`)
+            user.send(`🚨 ${region.location_oblast} повітряна тривога`)
             .catch(() => console.log(`${user.tag} not sended`))        
           }
         }
       }
       // send to end
       for (const region of older) {
-        const subscribers = await this.db.get(`${this.user.username}:${region}`) || []
+        const subscribers = await this.db.get(`${this.user.username}:${region.location_oblast}`) || []
         for (const uid of subscribers) {
           const user = await this.users.fetch(uid) || false
           if (user) {
             if (user.bot) return
-            user.send(`🕊️ В ${region} відбій повітряної тривоги`)
+            user.send(`🕊️ ${region.location_oblast} відбій повітряної тривоги`)
             .catch(() => console.log(`${user.tag} not sended`))        
           }
         }

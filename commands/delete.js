@@ -17,9 +17,10 @@ module.exports.info = {
 module.exports.run = async function (interaction) {
   const { value } = interaction.options.get("region")
   const subscribers = await this.db.get(`${this.user.username}:${value}`) || []
-  if (!subscribers.includes(interaction.author.id)) {
+  const id = interaction.author?.id || interaction.user?.id || interaction.member?.id
+  if (!subscribers.includes(id)) {
 
-    await this.db.setArray(`${this.user.username}:${value}`, subscribers.filter(id => id !== interaction.author.id))
+    await this.db.setArray(`${this.user.username}:${value}`, subscribers.filter(_id => _id !== id))
     
     interaction.reply({content: `✅ Ви успішно відписались на **${value}**`, ephemeral: true})
   } else interaction.reply({content: `✅ Ви не підписані на **${value}**`, ephemeral: true});

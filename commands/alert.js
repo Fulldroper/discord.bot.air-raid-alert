@@ -2,7 +2,6 @@ module.exports.info = {
   "name": "alert",
   "type": 1,
   "description": "Підписатися на сповіщення про тривоги",
-  "dm_permission": false,
   "options":[
     {
       "type": 3,

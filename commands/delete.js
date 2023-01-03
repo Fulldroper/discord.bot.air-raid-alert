@@ -2,7 +2,6 @@ module.exports.info = {
   "name": "delete",
   "type": 1,
   "description": "Відписатися від сповіщення про тривогу",
-  "dm_permission": false,
   "options":[
     {
       "type": 3,

@@ -2,6 +2,7 @@ module.exports.info = {
   "name": "delete",
   "type": 1,
   "description": "Відписатися від сповіщення про тривогу",
+  "dm_permission": false,
   "options":[
     {
       "type": 3,
@@ -17,7 +18,7 @@ module.exports.info = {
 module.exports.run = async function (interaction) {
   const { value } = interaction.options.get("region")
   const subscribers = await this.db.get(`${this.user.username}:${value}`) || []
-  if (!subscribers.includes(interaction.user.id)) {
+  if (!subscribers.includes(interaction.member.id)) {
 
     await this.db.setArray(`${this.user.username}:${value}`, subscribers.filter(id => id !== interaction.member.id))
     

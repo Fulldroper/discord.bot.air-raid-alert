@@ -2,6 +2,7 @@ module.exports.info = {
   "name": "alert",
   "type": 1,
   "description": "Підписатися на сповіщення про тривоги",
+  "dm_permission": false,
   "options":[
     {
       "type": 3,
@@ -17,8 +18,8 @@ module.exports.info = {
 module.exports.run = async function (interaction) {
   const { value } = interaction.options.get("region")
   const subscribers = await this.db.get(`${this.user.username}:${value}`) || []
-  if (!subscribers.includes(interaction.user.id)) {
-    subscribers.push(interaction.user.id)
+  if (!subscribers.includes(interaction.member.id)) {
+    subscribers.push(interaction.member.id)
     await this.db.setArray(`${this.user.username}:${value}`, subscribers)
     
     interaction.reply({content: `✅ Ви успішно підписались на **${value}**`, ephemeral: true})

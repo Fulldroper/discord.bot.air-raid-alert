@@ -46,7 +46,7 @@ module.exports = async function () {
           const user = await this.users.fetch(uid) || false
           if (user) {
             if (user.bot) return
-            user.send(`🚨 ${region.location_oblast} повітряна тривога`)
+            user.send(`🚨 ${region.location_title} повітряна тривога`)
             .catch(() => console.log(`${user.tag} not sended`))        
           }
         }
@@ -58,7 +58,7 @@ module.exports = async function () {
           const user = await this.users.fetch(uid) || false
           if (user) {
             if (user.bot) return
-            user.send(`🕊️ ${region.location_oblast} відбій повітряної тривоги`)
+            user.send(`🕊️ ${region.location_title} відбій повітряної тривоги`)
             .catch(() => console.log(`${user.tag} not sended`))        
           }
         }

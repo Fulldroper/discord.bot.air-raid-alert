@@ -17,8 +17,8 @@ module.exports.info = {
 module.exports.run = async function (interaction) {
   const { value } = interaction.options.get("region")
   const subscribers = await this.db.get(`${this.user.username}:${value}`) || []
-  if (!subscribers.includes(interaction.member.id)) {
-    subscribers.push(interaction.member.id)
+  if (!subscribers.includes(interaction.user.id)) {
+    subscribers.push(interaction.user.id)
     await this.db.setArray(`${this.user.username}:${value}`, subscribers)
     
     interaction.reply({content: `✅ Ви успішно підписались на **${value}**`, ephemeral: true})

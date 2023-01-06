@@ -33,7 +33,7 @@ module.exports = async function () {
       
       for (let n = 0; n < newer.length; n++) {
         let o = older.findIndex(old_region => old_region.location_oblast !== newer[n].location_oblast)
-        
+
         if(o > 0){
           newer.splice(1, n)
           older.splice(1, o)
@@ -41,25 +41,29 @@ module.exports = async function () {
       }      
       // send to start
       for (const region of newer) {
-        const subscribers = await this.db.get(`${this.user.username}:${region.location_oblast}`) || []
-        for (const uid of subscribers) {
-          const user = await this.users.fetch(uid) || false
-          if (user) {
-            if (user.bot) return
-            user.send(`🚨 ${region.location_title} повітряна тривога`)
-            .catch(() => console.log(`${user.tag} not sended`))        
+        if(region["location_type"] === "oblast") {
+          const subscribers = await this.db.get(`${this.user.username}:${region.location_oblast}`) || []
+          for (const uid of subscribers) {
+            const user = await this.users.fetch(uid) || false
+            if (user) {
+              if (user.bot) return
+              user.send(`🚨 ${region.location_title} повітряна тривога`)
+              .catch(() => console.log(`${user.tag} not sended`))        
+            }
           }
         }
       }
       // send to end
       for (const region of older) {
-        const subscribers = await this.db.get(`${this.user.username}:${region.location_oblast}`) || []
-        for (const uid of subscribers) {
-          const user = await this.users.fetch(uid) || false
-          if (user) {
-            if (user.bot) return
-            user.send(`🕊️ ${region.location_title} відбій повітряної тривоги`)
-            .catch(() => console.log(`${user.tag} not sended`))        
+        if(region["location_type"] === "oblast") {
+          const subscribers = await this.db.get(`${this.user.username}:${region.location_oblast}`) || []
+          for (const uid of subscribers) {
+            const user = await this.users.fetch(uid) || false
+            if (user) {
+              if (user.bot) return
+              user.send(`🕊️ ${region.location_title} відбій повітряної тривоги`)
+              .catch(() => console.log(`${user.tag} not sended`))        
+            }
           }
         }
       }

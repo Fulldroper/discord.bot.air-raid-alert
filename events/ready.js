@@ -16,7 +16,7 @@ module.exports = async function () {
 
   while (true) {
     console.log(`[checking updates by API]`);
-    const { latest, alerts: older} = await this.db.get(`${this.user.username}:buffer`) || { latest: false, alerts: []}
+    let { latest, alerts: older} = await this.db.get(`${this.user.username}:buffer`) || { latest: false, alerts: []}
     const req = {
       method: 'get',
       url: 'https://api.alerts.in.ua/v1/alerts/active.json',
@@ -27,7 +27,7 @@ module.exports = async function () {
     }
     latest && (req.headers["If-Modified-Since"] = latest)
     const { status, data, headers } = await r(req).catch(() => console.log(`[updates not found]`)) || {status: false, data: false, headers: false}
-    const { alerts: newer } = data
+    let { alerts: newer } = data
     if (status === 200) {
       console.log(`[updates found]`);
       
@@ -37,7 +37,9 @@ module.exports = async function () {
         if(o > 0){
           newer.splice(1, n)
           older.splice(1, o)
-        }        
+        }
+        
+        console.log({newer, older});
       }      
       // send to start
       for (const region of newer) {

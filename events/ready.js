@@ -56,7 +56,7 @@ module.exports = async function () {
                 now[key].alert ? '🚨' : '🕊️'
               } ${key} ${
                 now[key].alert ? 'повітряна тривога' : 'відбій повітряної тривоги'
-              }${/*exploit+api*/}`)
+              }`)
               .catch(() => console.log(`${user.tag} not sended`)) 
             }
           }
